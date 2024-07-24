@@ -1,0 +1,26 @@
+{
+    "rdbms": "postgresql",
+    "host": "0.0.0.0",
+    "port": 5432,
+    "dbname": "secret",
+    "schema": "public",
+    "user": "postgres",
+    "password": "",
+    "tables": [],
+    "relationships": {
+        "enabled": false,
+        "items": []
+    },
+    "restful_api_controllers": {
+        "enabled": true,
+        "resource_uri": "/*",
+        "class_name": "Restful*Ctrl",
+        "filters": [],
+        "db_client": {
+            "name": "default",
+            "is_fast": true
+        },
+        "directory": "controllers",
+        "generate_base_only": false
+    }
+}
