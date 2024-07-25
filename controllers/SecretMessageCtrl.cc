@@ -41,11 +41,10 @@ void SecretMessageCtrl::post(const HttpRequestPtr &req, std::function<void(const
     }
     auto db = drogon::app().getFastDbClient();
     
-    auto id = std::make_shared<std::string>();
-    *db << "Insert into secret_message (message) values ($1) returning id" << secretMessage->getValueOfMessage() >> [callbackPtr, id, secretMessage](const drogon::orm::Result &r)
+    *db << "Insert into secret_message (message) values ($1) returning *" << secretMessage->getValueOfMessage() >> [callbackPtr](const drogon::orm::Result &r)
     {
+        auto secretMessage = std::make_shared<SecretMessage>(r[0]);
         auto resp = HttpResponse::newHttpResponse(HttpStatusCode::k200OK, ContentType::CT_APPLICATION_JSON);
-        secretMessage->setId(r[0]["id"].as<std::string>());
         resp->setBody(secretMessage->toJson().toStyledString());
         (*callbackPtr)(resp);
     } >> [callbackPtr](const drogon::orm::DrogonDbException &e)
